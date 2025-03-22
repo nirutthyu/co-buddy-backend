@@ -1,5 +1,5 @@
 const express = require('express');
-const collection = require("../src/mongo"); // MongoDB collection
+const collection = require("./mongo.js"); // MongoDB collection
 const cors = require('cors');
 const dotenv = require('dotenv');
 const fetch = require('node-fetch');
