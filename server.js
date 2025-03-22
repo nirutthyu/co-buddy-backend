@@ -55,8 +55,7 @@ app.post('/gemini/quiz', async (req, res) => {
             `Generate a ${difficulty} quiz containing one word answers with 10 questions on the topic ${topic}. Format each question followed by its answer, using "::" to separate the question and answer. Example: "Question :: Answer". No additional formatting.`
         );
         console.log(difficulty);
-        const response = content.response;
-        const text = await response.text();
+        const text = await content.text();
 
         // Split by new lines first to separate each question-answer pair
         const parts = text.split('\n').filter(line => line.trim() !== '');
