@@ -24,7 +24,7 @@ app.post('/gemini', async (req, res) => {
     console.log(req.body.history);
     console.log(req.body.message);
     try {
-        const model = genAi.getGenerativeModel({ model: 'gemini-pro' });
+        const model = genAi.getGenerativeModel({ model: 'gemini-1.5-flash' });
         const chat = model.startChat({
             history: req.body.history.map(entry => ({
                 role: entry.role,
