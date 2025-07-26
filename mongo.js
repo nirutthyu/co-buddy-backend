@@ -19,10 +19,6 @@ const newSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  password: {
-    type: String,
-    required: true,
-  },
   score: { type: Number, default: 0 },
   gold: { type: Number, default: 0 },
   silver: { type: Number, default: 0 },

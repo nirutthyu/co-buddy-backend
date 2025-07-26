@@ -96,11 +96,10 @@ app.post("/", async (req, res) => {
 
 // Signup route
 app.post("/signup", async (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email } = req.body;
 
     const data = {
         email,
-        password,
         name,
         gold: 0,
         silver: 0,
@@ -111,10 +110,10 @@ app.post("/signup", async (req, res) => {
         const check = await collection.findOne({ email });
 
         if (check) {
-            res.json("exist");
+            res.json("logged in successfully");
         } else {
             await collection.insertOne(data);
-            res.json("notexist");
+            res.json("signed up successfully");
         }
     } catch (error) {
         console.error("Signup Error:", error);
