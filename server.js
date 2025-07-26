@@ -57,8 +57,8 @@ app.post('/gemini/chat-to-quiz', async (req, res) => {
             .join('\n');
 
         const prompt = `
-Based on the following conversation between a user and an AI, generate a quiz with 10 questions that have short, preferably one-word answers. 
-Each line should be formatted as: "Question :: Answer"
+Based on the following conversation generate a quiz with 10 questions with one word answers.
+Format "Question :: Answer"
 
 Conversation:
 ${chatText}
