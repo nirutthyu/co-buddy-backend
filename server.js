@@ -41,6 +41,52 @@ app.post('/gemini', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+app.post('/gemini/chat-to-quiz', async (req, res) => {
+    const { context } = req.body;
+
+    if (!context || !Array.isArray(context)) {
+        return res.status(400).json({ error: "Chat context is required and must be an array." });
+    }
+
+    try {
+        const model = genAi.getGenerativeModel({ model: 'gemini-1.5-flash' });
+
+        // Convert chat history to readable format for prompt
+        const chatText = context
+            .map(entry => `${entry.role === 'user' ? 'User' : 'AI'}: ${entry.parts[0].text}`)
+            .join('\n');
+
+        const prompt = `
+Based on the following conversation between a user and an AI, generate a quiz with 10 questions that have short, preferably one-word answers. 
+Each line should be formatted as: "Question :: Answer"
+
+Conversation:
+${chatText}
+        `.trim();
+
+        const result = await model.generateContent([{ text: prompt }]);
+        const text = result.response.text();
+        console.log("Chat-to-Quiz Raw Response:\n", text);
+
+        const lines = text.split('\n').filter(line => line.includes("::"));
+        const questions = [];
+        const answers = [];
+
+        lines.forEach(line => {
+            const [q, a] = line.split("::");
+            if (q && a) {
+                questions.push(q.trim());
+                answers.push(a.trim());
+            }
+        });
+
+        res.json({ questions, answers });
+
+    } catch (error) {
+        console.error("Chat-to-Quiz Error:", error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
 
 // Quiz generation API route
 app.post('/gemini/quiz', async (req, res) => {
